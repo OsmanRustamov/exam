@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Order Detail{% endblock %}
+
+{% block content %}
+  <h2>Order Detail</h2>
+  <p>ID: {{ order.orderid }}</p>
+  <p>Order Status: {{ order.orderstatus }}</p>
+  <p>Payment Status: {{ order.paymentstatus }}</p>
+  <p>Car Element: {{ order.carelement }}</p>
+  <p>Details: {{ order.details }}</p>
+  <p>Liquids: {{ order.liquids }}</p>
+  <p>Amount Damage: {{ order.amountdamage }}</p>
+  <a href="{% url 'order_update' order.orderid %}">Edit</a>
+  <a href="{% url 'order_delete' order.orderid %}">Delete</a>
+{% endblock %}
