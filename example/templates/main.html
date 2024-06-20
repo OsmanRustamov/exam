@@ -6,14 +6,21 @@
     <h2>Main</h2>
     <table>
         <thead>
-            <th>Название</th>
-            <th>Статус</th>
+                <tr>
+                    <th>Название</th>
+                    <th>Статус</th>
+                </tr>
         </thead>
         <tbody>
             {% for order in orders %}
-                <td>{{ order.name }}</td>
-                <td>{{ order.status }}</td>
+                <tr>
+                    <td>{{ order.name }}</td>
+                    <td>{{ order.status }}</td>
+                </tr>
             {% endfor %}
+            {% if is_waiter %}
+            <a href="{% url 'add_order' %}">Add Order</a>
+          {% endif %}
         </tbody>
     </table>
     <li><a href="{% url 'logout' %}">Logout</a></li>
