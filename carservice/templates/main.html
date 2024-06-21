@@ -3,8 +3,8 @@
 {% block title %}Order List{% endblock %}
 
 {% block content %}
+
   <h2>Order List</h2>
-  <a href="{% url 'add_order' %}">Add New Order</a>
   <table>
     <thead>
       <tr>
@@ -31,17 +31,19 @@
           <td>{{ order.liquids }}</td>
           <td>{{ order.amountdamage }}</td>
           <td>
-            {% if user.userrole == "автодиагност" %}
+            {% if user.userrole == "automachenic" %}
             <a href="{% url 'order_detail' order.orderid %}">View</a>
-            <a href="{% url 'order_update' order.orderid %}">Edit</a>
-            <a href="{% url 'order_delete' order.orderid %}">Delete</a>
-            {% elif user.userrole == "автомеханик" %}
+            <a href="{% url 'order_payment_status_update' order.orderid %}">Поменять статус</a>
+            {% elif user.userrole == "autodiagnostic" %}
             <a href="{% url 'order_detail' order.orderid %}">View</a>
-            <a href="{% url 'update_order_status' order.orderid %}">Поменять статус</a>
+            <a href="{% url 'order_preparation_status_update' order.orderid %}">Поменять статус</a>
             {% endif %}
           </td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
+  {% if user.userrole == "autodiagnostic" %}
+  <a href="{% url 'add_order' %}">Add New Order</a>
+  {% endif %}
 {% endblock %}

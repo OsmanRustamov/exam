@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.auth import login, logout
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from .models import Order, User
-from .forms import OrderForm, OrderStatusForm
+from .forms import OrderForm, OrderPaymentStatusForm, OrderPreparationStatusForm
 
 class LoginView(LoginView):
     template_name = 'login.html'
@@ -82,14 +82,28 @@ def order_delete(request, orderid):
         return redirect('main')
     return render(request, 'order_confirm_delete.html', {'order': order})
 
-@login_required(login_url='/accounts/login/')
-def order_status_update(request, orderid):
+
+
+@login_required(login_url='/login/')
+def order_preparation_status_update(request, orderid):
     order = get_object_or_404(Order, orderid=orderid)
     if request.method == 'POST':
-        form = OrderStatusForm(request.POST, instance=order)
+        form = OrderPreparationStatusForm(request.POST, instance=order)
         if form.is_valid():
             form.save()
-            return redirect('main', orderid=order.orderid)
+            return redirect('order_detail', orderid=order.orderid)
     else:
-        form = OrderStatusForm(instance=order)
-    return render(request, 'update_order_status.html', {'form': form, 'order': order})
+        form = OrderPreparationStatusForm(instance=order)
+    return render(request, 'order_preparation_status_form.html', {'form': form, 'order': order})
+
+@login_required(login_url='/login/')
+def order_payment_status_update(request, orderid):
+    order = get_object_or_404(Order, orderid=orderid)
+    if request.method == 'POST':
+        form = OrderPaymentStatusForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('order_detail', orderid=order.orderid)
+    else:
+        form = OrderPaymentStatusForm(instance=order)
+    return render(request, 'order_payment_status_form.html', {'form': form, 'order': order})

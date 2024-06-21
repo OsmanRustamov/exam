@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Site{% endblock %}</title>
+    <title>{% block title %}Демо экзамен{% endblock %}</title>
 
 </head>
 <body>
@@ -11,6 +11,9 @@
         <nav>
             <ul>
                 <li><a href="{% url 'main' %}">Home</a></li>
+                {% if user.userrole == "master" %}
+                    <li><a href="{% url 'admin:index' %}">Admin</a></li>
+                {% endif %}
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
@@ -24,7 +27,6 @@
         {% endblock %}
     </main>
     <footer>
-        <p>&copy; 2024 My Site</p>
     </footer>
 </body>
 </html>

@@ -5,15 +5,34 @@ class OrderForm(forms.ModelForm):
         model = Order
         fields = (
             'orderid',
-            'orderstatus',
-            'paymentstatus',
             'carelement',
             'details',
             'liquids',
             'amountdamage',
         )
 
-class OrderStatusForm(forms.ModelForm):
+from django import forms
+from .models import Order
+
+class OrderPreparationStatusForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['orderstatus']
+        widgets = {
+            'orderstatus': forms.Select(choices=[
+                ('готовится', 'Готовится'),
+                ('готов', 'Готов')
+            ])
+        }
+
+class OrderPaymentStatusForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['paymentstatus']
+        widgets = {
+            'paymentstatus': forms.Select(choices=[
+                ('принят', 'Принят'),
+                ('оплачен', 'Оплачен')
+            ])
+        }
+

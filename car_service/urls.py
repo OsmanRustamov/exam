@@ -16,16 +16,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from carservice.views import LoginView, logout_view, main, add_order, order_detail, order_create, order_update, order_delete, order_status_update
+from carservice.views import logout_view, main, add_order, order_detail, order_create, order_update, order_delete, order_preparation_status_update, order_payment_status_update
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', LoginView.as_view(), name='login'),
+    path('login/', views.LoginView.as_view(authentication_form=AuthenticationForm, redirect_authenticated_user=True), name='login'),
     path('logout/', logout_view, name='logout'),
     path('add_order/', add_order, name="add_order"),
     path('orders/<int:orderid>/', order_detail, name='order_detail'),
     path('orders/new/', order_create, name='order_create'),
     path('orders/<int:orderid>/edit/', order_update, name='order_update'),
     path('orders/<int:orderid>/delete/', order_delete, name='order_delete'),
-    path('orders/<int:orderid>/status/', order_status_update, name='order_status_update'),
+    path('orders/<int:orderid>/preparation_status/', order_preparation_status_update, name='order_preparation_status_update'),
+    path('orders/<int:orderid>/payment_status/', order_payment_status_update, name='order_payment_status_update'),
     path('', main, name='main'),
 ]
